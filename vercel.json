@@ -1,5 +1,6 @@
 {
   "trailingSlash": true,
+  "buildCommand": "python3 build.py",
   "outputDirectory": "public",
   "headers": [
     {
