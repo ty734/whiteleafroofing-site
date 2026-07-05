@@ -220,27 +220,27 @@
       "permanent": true
     },
     {
-      "source": "/tag/:path*",
+      "source": "/tag/:path(.*)",
       "destination": "/",
       "permanent": true
     },
     {
-      "source": "/category/:path*",
+      "source": "/category/:path(.*)",
       "destination": "/",
       "permanent": true
     },
     {
-      "source": "/author/:path*",
+      "source": "/author/:path(.*)",
       "destination": "/",
       "permanent": true
     },
     {
-      "source": "/portfolio/:path*",
+      "source": "/portfolio/:path(.*)",
       "destination": "/roof-replacement/",
       "permanent": true
     },
     {
-      "source": "/portfolio_categories/:path*",
+      "source": "/portfolio_categories/:path(.*)",
       "destination": "/roof-replacement/",
       "permanent": true
     },
