@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#16140F">
+<title>White Leaf Roofing — Leads</title>
+<link rel="icon" href="/assets/img/favicon.webp" type="image/webp">
+<style>
+  :root {
+    --ink: #16140F; --panel: #201D15; --panel-2: #2A261B; --bone: #F4EFE2;
+    --dim: #B5AC97; --gold: #DFAA25; --gold-deep: #B8880F; --line: #3A3527;
+    --green: #7CB342; --red: #C0564A;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  body { background: var(--ink); color: var(--bone); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif; line-height: 1.5; padding-bottom: env(safe-area-inset-bottom); }
+  a { color: inherit; }
+  button { font-family: inherit; cursor: pointer; border: none; }
+  .wrap { max-width: 720px; margin: 0 auto; padding: 0 14px; }
+
+  /* Header */
+  header { position: sticky; top: 0; z-index: 10; background: rgba(22,20,15,0.96); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); padding-top: env(safe-area-inset-top); }
+  .head-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 0 12px; }
+  .brand { display: flex; align-items: center; gap: 10px; }
+  .brand img { height: 30px; background: var(--bone); padding: 4px 8px; border-radius: 4px; }
+  .brand b { font-size: 15px; letter-spacing: 0.02em; }
+  .head-actions { display: flex; gap: 8px; }
+  .icon-btn { background: var(--panel-2); color: var(--bone); border: 1px solid var(--line); border-radius: 8px; padding: 8px 12px; font-size: 14px; font-weight: 600; }
+  .icon-btn:active { background: var(--line); }
+
+  /* Tabs */
+  .tabs { display: flex; gap: 6px; overflow-x: auto; padding: 4px 0 12px; scrollbar-width: none; }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab { flex: 0 0 auto; background: var(--panel); border: 1px solid var(--line); color: var(--dim); border-radius: 999px; padding: 9px 16px; font-size: 14px; font-weight: 600; white-space: nowrap; }
+  .tab[aria-selected="true"] { background: var(--gold); color: #16140F; border-color: var(--gold); }
+  .tab .n { opacity: 0.7; margin-left: 4px; }
+  .tab[aria-selected="true"] .n { opacity: 0.85; }
+
+  /* Cards */
+  main { padding: 14px 0 40px; }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 16px 16px 14px; margin-bottom: 14px; }
+  .card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
+  .card-name { font-size: 20px; font-weight: 700; letter-spacing: -0.01em; }
+  .card-time { font-size: 12.5px; color: var(--dim); white-space: nowrap; margin-top: 4px; }
+  .pill { font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 9px; border-radius: 999px; }
+  .pill.new { background: rgba(223,170,37,0.16); color: var(--gold); }
+  .pill.called { background: rgba(124,179,66,0.16); color: var(--green); }
+  .pill.won { background: rgba(124,179,66,0.28); color: #A6D96A; }
+
+  .fields { margin: 12px 0 4px; display: grid; gap: 7px; }
+  .field { display: flex; gap: 8px; font-size: 15px; }
+  .field .k { color: var(--dim); flex: 0 0 78px; font-size: 13px; padding-top: 1px; }
+  .field .v { color: var(--bone); word-break: break-word; }
+  .field .v a { color: var(--gold); text-decoration: none; }
+  .msg { background: var(--ink); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; font-size: 14.5px; color: var(--bone); margin-top: 6px; }
+
+  /* Contact buttons */
+  .contact { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 14px; }
+  .contact.one { grid-template-columns: 1fr; }
+  .contact a { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 14px; border-radius: 10px; font-size: 16px; font-weight: 700; text-decoration: none; }
+  .btn-call { background: var(--gold); color: #16140F; }
+  .btn-call:active { background: var(--gold-deep); }
+  .btn-text { background: var(--panel-2); color: var(--bone); border: 1px solid var(--line); }
+  .btn-email { background: var(--panel-2); color: var(--bone); border: 1px solid var(--line); grid-column: 1 / -1; }
+
+  /* Status + delete row */
+  .actions { display: flex; align-items: center; gap: 6px; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--line); }
+  .status-set { display: flex; gap: 6px; flex: 1; }
+  .status-set button { flex: 1; background: var(--ink); border: 1px solid var(--line); color: var(--dim); border-radius: 8px; padding: 9px 4px; font-size: 12.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; }
+  .status-set button.active { border-color: var(--gold); color: var(--gold); }
+  .del { background: transparent; border: 1px solid var(--line); color: var(--dim); border-radius: 8px; padding: 9px 12px; font-size: 15px; }
+  .del:active { border-color: var(--red); color: var(--red); }
+
+  /* States */
+  .state { text-align: center; color: var(--dim); padding: 60px 20px; font-size: 15px; }
+  .state b { color: var(--bone); display: block; font-size: 18px; margin-bottom: 6px; }
+
+  /* Login */
+  .login { min-height: 80vh; display: grid; place-items: center; padding: 20px; }
+  .login-card { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 32px 26px; width: 100%; max-width: 360px; text-align: center; }
+  .login-card img { height: 44px; background: var(--bone); padding: 6px 12px; border-radius: 6px; margin-bottom: 20px; }
+  .login-card h1 { font-size: 20px; margin-bottom: 6px; }
+  .login-card p { color: var(--dim); font-size: 14px; margin-bottom: 20px; }
+  .login-card input { width: 100%; background: var(--ink); border: 1.5px solid var(--line); color: var(--bone); border-radius: 10px; padding: 14px 16px; font-size: 16px; margin-bottom: 12px; }
+  .login-card button { width: 100%; background: var(--gold); color: #16140F; border-radius: 10px; padding: 14px; font-size: 16px; font-weight: 700; }
+  .login-err { color: #E8A99F; font-size: 13.5px; margin-top: 10px; min-height: 18px; }
+  .hidden { display: none !important; }
+</style>
+</head>
+<body>
+
+<div id="login" class="login hidden">
+  <form class="login-card" id="loginForm">
+    <img src="/assets/img/logo-horizontal.webp" alt="White Leaf Roofing">
+    <h1>Leads</h1>
+    <p>Enter the password to view your leads.</p>
+    <input type="password" id="pw" autocomplete="current-password" placeholder="Password" inputmode="text">
+    <button type="submit">View my leads</button>
+    <div class="login-err" id="loginErr"></div>
+  </form>
+</div>
+
+<div id="app" class="hidden">
+  <header>
+    <div class="wrap">
+      <div class="head-row">
+        <div class="brand"><img src="/assets/img/logo-horizontal.webp" alt="White Leaf Roofing"><b>Leads</b></div>
+        <div class="head-actions">
+          <button class="icon-btn" id="refreshBtn" title="Refresh">&#8635; Refresh</button>
+          <button class="icon-btn" id="logoutBtn" title="Log out">Log out</button>
+        </div>
+      </div>
+      <div class="tabs" id="tabs" role="tablist"></div>
+    </div>
+  </header>
+  <main>
+    <div class="wrap" id="list"></div>
+  </main>
+</div>
+
+<script>
+(function () {
+  var KEY_STORE = 'wlr-dash-key';
+  var TAB_STORE = 'wlr-dash-tab';
+  var TABS = [
+    { id: 'new', label: 'New' },
+    { id: 'called', label: 'Called' },
+    { id: 'won', label: 'Won' },
+    { id: 'all', label: 'All' }
+  ];
+  var STATUS_LABEL = { new: 'New', called: 'Called', won: 'Won' };
+  var leads = [];
+  var activeTab = localStorage.getItem(TAB_STORE) || 'new';
+  var key = localStorage.getItem(KEY_STORE) || '';
+
+  var loginEl = document.getElementById('login');
+  var appEl = document.getElementById('app');
+  var listEl = document.getElementById('list');
+  var tabsEl = document.getElementById('tabs');
+
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  function digits(s) { return String(s || '').replace(/\D/g, ''); }
+  function timeAgo(ts) {
+    var s = Math.floor((Date.now() - ts) / 1000);
+    if (s < 60) return 'just now';
+    var m = Math.floor(s / 60); if (m < 60) return m + ' min ago';
+    var h = Math.floor(m / 60); if (h < 24) return h + (h === 1 ? ' hour ago' : ' hours ago');
+    var d = Math.floor(h / 24); if (d < 7) return d + (d === 1 ? ' day ago' : ' days ago');
+    return new Date(ts).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  }
+  function api(method, body) {
+    return fetch('/api/leads/', {
+      method: method,
+      headers: { 'X-Dash-Key': key, 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: body ? JSON.stringify(body) : undefined
+    });
+  }
+
+  function showLogin(msg) {
+    appEl.classList.add('hidden');
+    loginEl.classList.remove('hidden');
+    document.getElementById('loginErr').textContent = msg || '';
+  }
+  function showApp() { loginEl.classList.add('hidden'); appEl.classList.remove('hidden'); }
+
+  function count(status) {
+    return status === 'all' ? leads.length : leads.filter(function (l) { return l.status === status; }).length;
+  }
+  function renderTabs() {
+    tabsEl.innerHTML = TABS.map(function (t) {
+      return '<button class="tab" role="tab" data-tab="' + t.id + '" aria-selected="' + (t.id === activeTab) + '">' +
+        esc(t.label) + '<span class="n">' + count(t.id) + '</span></button>';
+    }).join('');
+  }
+  function statusButtons(l) {
+    return ['new', 'called', 'won'].map(function (s) {
+      return '<button data-act="status" data-id="' + l.id + '" data-status="' + s + '" class="' + (l.status === s ? 'active' : '') + '">' + STATUS_LABEL[s] + '</button>';
+    }).join('');
+  }
+  function card(l) {
+    var d = digits(l.phone);
+    var rows = '';
+    if (l.phone) rows += '<div class="field"><span class="k">Phone</span><span class="v"><a href="tel:' + esc(d) + '">' + esc(l.phone) + '</a></span></div>';
+    if (l.email) rows += '<div class="field"><span class="k">Email</span><span class="v"><a href="mailto:' + esc(l.email) + '">' + esc(l.email) + '</a></span></div>';
+    if (l.page) rows += '<div class="field"><span class="k">From</span><span class="v">' + esc(l.page) + '</span></div>';
+    var contact = '';
+    if (d) {
+      contact = '<div class="contact' + (l.email ? '' : ' one') + '">' +
+        '<a class="btn-call" href="tel:' + esc(d) + '">📞 Call</a>' +
+        '<a class="btn-text" href="sms:' + esc(d) + '">💬 Text</a>' +
+        (l.email ? '<a class="btn-email" href="mailto:' + esc(l.email) + '">✉ Email</a>' : '') +
+        '</div>';
+    } else if (l.email) {
+      contact = '<div class="contact one"><a class="btn-call" href="mailto:' + esc(l.email) + '">✉ Email</a></div>';
+    }
+    return '<div class="card">' +
+      '<div class="card-top"><div><div class="card-name">' + esc(l.name || 'No name') + '</div>' +
+      '<div class="card-time">' + timeAgo(l.createdAt) + '</div></div>' +
+      '<span class="pill ' + l.status + '">' + STATUS_LABEL[l.status] + '</span></div>' +
+      (rows ? '<div class="fields">' + rows + '</div>' : '') +
+      (l.message ? '<div class="msg">' + esc(l.message) + '</div>' : '') +
+      contact +
+      '<div class="actions"><div class="status-set">' + statusButtons(l) + '</div>' +
+      '<button class="del" data-act="delete" data-id="' + l.id + '" title="Delete">🗑</button></div>' +
+      '</div>';
+  }
+  function render() {
+    renderTabs();
+    var items = activeTab === 'all' ? leads : leads.filter(function (l) { return l.status === activeTab; });
+    if (!items.length) {
+      listEl.innerHTML = '<div class="state"><b>No ' + (activeTab === 'all' ? '' : activeTab + ' ') + 'leads</b>' +
+        (activeTab === 'new' ? 'New callback requests will show up here.' : 'Nothing here yet.') + '</div>';
+      return;
+    }
+    listEl.innerHTML = items.map(card).join('');
+  }
+
+  function load() {
+    listEl.innerHTML = '<div class="state">Loading leads&hellip;</div>';
+    api('GET').then(function (r) {
+      if (r.status === 401) { localStorage.removeItem(KEY_STORE); key = ''; showLogin('That password did not work. Try again.'); throw 'auth'; }
+      return r.json();
+    }).then(function (data) {
+      if (data.error === 'storage_not_connected') {
+        showApp();
+        listEl.innerHTML = '<div class="state"><b>Storage not connected yet</b>Once the leads database is connected, submissions will appear here automatically.</div>';
+        renderTabs();
+        return;
+      }
+      leads = (data.leads || []);
+      showApp();
+      render();
+    }).catch(function (e) { if (e !== 'auth') { showApp(); listEl.innerHTML = '<div class="state"><b>Could not load leads</b>Check your connection and tap Refresh.</div>'; } });
+  }
+
+  // Events
+  tabsEl.addEventListener('click', function (e) {
+    var t = e.target.closest('.tab'); if (!t) return;
+    activeTab = t.dataset.tab; localStorage.setItem(TAB_STORE, activeTab); render();
+  });
+  listEl.addEventListener('click', function (e) {
+    var btn = e.target.closest('[data-act]'); if (!btn) return;
+    var id = btn.dataset.id;
+    if (btn.dataset.act === 'status') {
+      var lead = leads.find(function (l) { return l.id === id; });
+      if (!lead || lead.status === btn.dataset.status) return;
+      lead.status = btn.dataset.status; render(); // optimistic
+      api('PATCH', { id: id, status: btn.dataset.status }).then(function (r) { if (!r.ok) load(); });
+    } else if (btn.dataset.act === 'delete') {
+      if (!confirm('Delete this lead? This cannot be undone.')) return;
+      leads = leads.filter(function (l) { return l.id !== id; }); render(); // optimistic
+      api('DELETE', { id: id }).then(function (r) { if (!r.ok) load(); });
+    }
+  });
+  document.getElementById('refreshBtn').addEventListener('click', load);
+  document.getElementById('logoutBtn').addEventListener('click', function () {
+    localStorage.removeItem(KEY_STORE); key = ''; leads = []; showLogin('');
+  });
+  document.getElementById('loginForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var val = document.getElementById('pw').value.trim();
+    if (!val) return;
+    key = val;
+    api('GET').then(function (r) {
+      if (r.status === 401) { key = ''; document.getElementById('loginErr').textContent = 'Wrong password.'; return; }
+      localStorage.setItem(KEY_STORE, key);
+      document.getElementById('pw').value = '';
+      load();
+    }).catch(function () { document.getElementById('loginErr').textContent = 'Could not connect. Try again.'; });
+  });
+
+  // Start
+  if (key) load(); else showLogin('');
+  // Light auto-refresh while logged in and the tab is visible.
+  setInterval(function () { if (key && !document.hidden && loginEl.classList.contains('hidden')) load(); }, 60000);
+})();
+</script>
+</body>
+</html>

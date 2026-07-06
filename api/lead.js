@@ -2,6 +2,8 @@
 // Sends every real submission to Andy + Tyler via Resend, then redirects to /thank-you/.
 // Env vars: RESEND_API_KEY (required), TURNSTILE_SECRET (optional bot check).
 
+import { addLead, storeReady } from '../lib/store.js';
+
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const DISPOSABLE = /@(mailinator|guerrillamail|10minutemail|tempmail|trashmail|yopmail|sharklasers|discard\.email|getnada|throwaway)/i;
 
@@ -98,7 +100,15 @@ export default async function handler(req, res) {
     // Do not lose a real lead silently: still show thank-you; error is logged in Vercel.
   }
 
-  // Future scope: INSERT into Vercel Postgres here for the leads dashboard.
+  // Persist to the leads dashboard store (non-fatal: a storage hiccup must never
+  // cost us the lead, which already went out by email above).
+  if (storeReady()) {
+    try {
+      await addLead({ name, phone, email, message, page });
+    } catch (err) {
+      console.error('Lead store failed:', err && err.stack ? err.stack : err);
+    }
+  }
 
   if (wantsJson) return res.status(200).json({ ok: true });
   return res.redirect(303, '/thank-you/');

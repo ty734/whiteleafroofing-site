@@ -64,9 +64,13 @@ def main() -> None:
         html = page.read_text(encoding="utf-8")
         for marker, content in partials.items():
             html = html.replace(marker, content)
-        html = html.replace("<head>", "<head>\n" + GTM_HEAD, 1)
-        html = html.replace("<body>", "<body>\n" + GTM_BODY, 1)
-        html = html.replace("</body>", CALLRAIL_SWAP + "\n</body>", 1)
+        # The private leads dashboard is a tool, not a marketing page: no GTM,
+        # no CallRail number-swapping, and it stays out of the sitemap (below).
+        top = page.relative_to(SRC).parts[0]
+        if top != "leads":
+            html = html.replace("<head>", "<head>\n" + GTM_HEAD, 1)
+            html = html.replace("<body>", "<body>\n" + GTM_BODY, 1)
+            html = html.replace("</body>", CALLRAIL_SWAP + "\n</body>", 1)
         html = html.replace('href="/assets/css/main.css"', f'href="/assets/css/main.css?v={css_v}"')
         html = html.replace('src="/assets/js/site.js"', f'src="/assets/js/site.js?v={js_v}"')
         leftovers = [m for m in MARKERS if m in html]
@@ -85,7 +89,7 @@ def main() -> None:
 
 
 SITE = "https://whiteleafroofing.com"
-NOINDEX = {"thank-you", "404"}
+NOINDEX = {"thank-you", "404", "leads"}
 
 
 def write_sitemap(pages) -> None:
