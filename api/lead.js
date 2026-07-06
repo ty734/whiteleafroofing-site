@@ -34,11 +34,15 @@ export default async function handler(req, res) {
     `Received: ${new Date().toLocaleString('en-US', { timeZone: 'America/Phoenix' })} (Phoenix time)`
   ].filter(Boolean);
 
+  // Strip any stray non-printable characters (e.g. a BOM/whitespace picked up
+  // when the env var was set) so the Authorization header is always valid.
+  const apiKey = (process.env.RESEND_API_KEY || '').replace(/[^\x21-\x7E]/g, '');
+
   try {
     const r = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: {
-        Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
+        Authorization: `Bearer ${apiKey}`,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
@@ -49,13 +53,12 @@ export default async function handler(req, res) {
         text: lines.join('\n')
       })
     });
-    if (!r.ok) throw new Error(`Resend ${r.status}`);
+    if (!r.ok) {
+      const detail = await r.text().catch(() => '');
+      throw new Error(`Resend ${r.status}: ${detail}`);
+    }
   } catch (err) {
     console.error('Lead email failed:', err && err.stack ? err.stack : err);
-    // Temporary diagnostic: expose the real error to a debug caller only.
-    if ((req.query && req.query.debug) === 'twl') {
-      return res.status(200).json({ ok: false, error: String(err && err.stack ? err.stack : err), hasKey: !!process.env.RESEND_API_KEY });
-    }
     // Do not lose the lead silently: still show thank-you, error is logged in Vercel.
   }
 
