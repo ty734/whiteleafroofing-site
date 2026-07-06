@@ -51,7 +51,11 @@ export default async function handler(req, res) {
     });
     if (!r.ok) throw new Error(`Resend ${r.status}`);
   } catch (err) {
-    console.error('Lead email failed:', err);
+    console.error('Lead email failed:', err && err.stack ? err.stack : err);
+    // Temporary diagnostic: expose the real error to a debug caller only.
+    if ((req.query && req.query.debug) === 'twl') {
+      return res.status(200).json({ ok: false, error: String(err && err.stack ? err.stack : err), hasKey: !!process.env.RESEND_API_KEY });
+    }
     // Do not lose the lead silently: still show thank-you, error is logged in Vercel.
   }
 
