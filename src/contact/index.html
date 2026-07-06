@@ -38,8 +38,11 @@
           <label>Your name
             <input type="text" name="name" required autocomplete="name">
           </label>
-          <label>Email or phone
-            <input type="text" name="email" required autocomplete="email" title="Enter a valid email address or a phone number with at least 10 digits.">
+          <label>Your email
+            <input type="email" name="email" autocomplete="email" inputmode="email">
+          </label>
+          <label>Your phone <span class="opt">(optional)</span>
+            <input type="tel" name="phone" autocomplete="tel" inputmode="tel" pattern="[\d\s\-\(\)\.\+]{10,}" title="Please enter a phone number with at least 10 digits.">
           </label>
           <label>Your question or message
             <textarea name="message" required></textarea>

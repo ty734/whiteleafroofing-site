@@ -176,6 +176,7 @@ nav.main a:hover, nav.main a[aria-current="page"] { color: var(--gold); }
 /* Forms */
 .lead-form { display: grid; gap: 18px; max-width: 560px; }
 .lead-form label { font-size: 13px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--bone-dim); display: grid; gap: 8px; }
+.lead-form .opt { text-transform: none; letter-spacing: 0; font-weight: 400; color: var(--bone-dim); opacity: 0.75; }
 .lead-form input, .lead-form textarea { background: var(--panel); border: 1.5px solid var(--line); color: var(--bone); font-family: inherit; font-size: 16.5px; padding: 14px 16px; width: 100%; }
 .lead-form input:hover, .lead-form textarea:hover { border-color: var(--bone-dim); }
 .lead-form textarea { min-height: 120px; resize: vertical; }

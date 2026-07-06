@@ -44,7 +44,10 @@
             <input type="text" name="name" required autocomplete="name">
           </label>
           <label>Your best phone number
-            <input type="tel" name="phone" required autocomplete="tel" inputmode="tel" pattern="[\d\s\-\(\)\.\+]{10,}" title="Please enter a phone number with at least 10 digits.">
+            <input type="tel" name="phone" autocomplete="tel" inputmode="tel" pattern="[\d\s\-\(\)\.\+]{10,}" title="Please enter a phone number with at least 10 digits.">
+          </label>
+          <label>Your email <span class="opt">(if you'd rather not give a phone)</span>
+            <input type="email" name="email" autocomplete="email" inputmode="email">
           </label>
           <label>What's going on with your roof? (optional)
             <textarea name="message" placeholder="Leak, broken tiles, getting bids on a replacement, not sure..."></textarea>
