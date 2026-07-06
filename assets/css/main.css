@@ -140,7 +140,7 @@ nav.main a:hover, nav.main a[aria-current="page"] { color: var(--gold); }
 .video-caption p { font-size: 15px; color: var(--bone-dim); margin-top: 10px; font-style: italic; }
 .video-caption cite { font-style: normal; display: block; margin-top: 10px; font-size: 13.5px; color: var(--bone); font-weight: 600; letter-spacing: 0.05em; }
 .video-caption cite span { color: var(--bone-dim); font-weight: 400; }
-@media (max-width: 960px) { .video-grid { grid-template-columns: 1fr; } }
+@media (max-width: 640px) { .video-grid { grid-template-columns: 1fr; } }
 
 /* Process strip */
 .steps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); counter-reset: step; }
@@ -227,6 +227,9 @@ footer.site { background: #100E0A; padding: 64px 0 110px; border-top: 1px solid 
 .article-cta h3 { font-family: 'Anton', sans-serif; font-weight: 400; text-transform: uppercase; font-size: 22px; margin: 0 0 8px; color: var(--bone); }
 .article-cta p { color: var(--bone-dim); margin-bottom: 16px; font-size: 15.5px; }
 .article-cta .btn { font-size: 15px; }
+/* Buttons inside article bodies: beat the .article-body a link styling */
+.article-body .btn, .article-cta .btn, .article-body a.btn-gold { text-decoration: none; }
+.article-body a.btn-gold, .article-cta a.btn-gold { color: #16140F; }
 .article-author { display: flex; gap: 18px; align-items: center; max-width: 760px; margin: 40px auto 0; padding: 24px; border: 1px solid #D9D1BB; background: #FFFDF7; }
 .article-author img { width: 72px; height: 72px; object-fit: cover; border-radius: 50%; }
 .article-author .who b { display: block; color: #16140F; }

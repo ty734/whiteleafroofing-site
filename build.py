@@ -36,8 +36,17 @@ GTM_BODY = (
 )
 
 
+def asset_version(path: Path) -> str:
+    import hashlib
+    return hashlib.md5(path.read_bytes()).hexdigest()[:8]
+
+
 def main() -> None:
     partials = {m: (PARTIALS / f).read_text(encoding="utf-8") for m, f in MARKERS.items()}
+
+    # Cache-busting: assets are served immutable, so mutated css/js need versioned URLs
+    css_v = asset_version(ASSETS / "css" / "main.css")
+    js_v = asset_version(ASSETS / "js" / "site.js")
 
     if PUBLIC.exists():
         shutil.rmtree(PUBLIC)
@@ -50,6 +59,8 @@ def main() -> None:
             html = html.replace(marker, content)
         html = html.replace("<head>", "<head>\n" + GTM_HEAD, 1)
         html = html.replace("<body>", "<body>\n" + GTM_BODY, 1)
+        html = html.replace('href="/assets/css/main.css"', f'href="/assets/css/main.css?v={css_v}"')
+        html = html.replace('src="/assets/js/site.js"', f'src="/assets/js/site.js?v={js_v}"')
         leftovers = [m for m in MARKERS if m in html]
         if leftovers:
             raise SystemExit(f"Unreplaced markers in {page}: {leftovers}")
