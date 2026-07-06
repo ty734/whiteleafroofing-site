@@ -124,6 +124,24 @@ nav.main a:hover, nav.main a[aria-current="page"] { color: var(--gold); }
 .rev-foot { margin-top: 40px; display: flex; align-items: center; gap: 22px; flex-wrap: wrap; font-size: 14px; color: var(--bone-dim); }
 .rev-foot b { color: var(--bone); }
 
+/* Video testimonials (click-to-play, no iframe until clicked) */
+.video-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-bottom: 40px; }
+.video-card { background: var(--ink); border: 1px solid var(--line); }
+.video-thumb { position: relative; aspect-ratio: 16/9; cursor: pointer; overflow: hidden; border: none; padding: 0; width: 100%; display: block; background: #000; }
+.video-thumb img { width: 100%; height: 100%; object-fit: cover; opacity: 0.85; transition: opacity .15s, transform .3s; }
+.video-thumb:hover img { opacity: 1; transform: scale(1.02); }
+.video-thumb .play { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 74px; height: 74px; background: var(--gold); display: grid; place-items: center; transition: background .15s; }
+.video-thumb:hover .play { background: #F0BE45; }
+.video-thumb .play::after { content: ""; border-style: solid; border-width: 13px 0 13px 22px; border-color: transparent transparent transparent #16140F; margin-left: 5px; }
+.video-thumb .dur { position: absolute; right: 12px; bottom: 12px; background: rgba(22,20,15,0.85); color: var(--bone); font-size: 12px; font-weight: 600; letter-spacing: 0.08em; padding: 4px 10px; text-transform: uppercase; }
+.video-card iframe { width: 100%; aspect-ratio: 16/9; border: 0; display: block; }
+.video-caption { padding: 20px 24px 24px; }
+.video-caption .stars { color: var(--gold); font-size: 14px; letter-spacing: 0.26em; }
+.video-caption p { font-size: 15px; color: var(--bone-dim); margin-top: 10px; font-style: italic; }
+.video-caption cite { font-style: normal; display: block; margin-top: 10px; font-size: 13.5px; color: var(--bone); font-weight: 600; letter-spacing: 0.05em; }
+.video-caption cite span { color: var(--bone-dim); font-weight: 400; }
+@media (max-width: 960px) { .video-grid { grid-template-columns: 1fr; } }
+
 /* Process strip */
 .steps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); counter-reset: step; }
 .step { background: var(--ink); padding: 30px 26px; }
