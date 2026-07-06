@@ -32,9 +32,14 @@
   });
 
   // Show a friendly error if the server bounced a submission back.
-  if (/[?&]error=1\b/.test(location.search)) {
-    var box = document.querySelector('.form-error');
-    if (box) { box.textContent = 'Please enter your name and a valid phone number or email so Andy can reach you.'; box.hidden = false; }
+  var box = document.querySelector('.form-error');
+  if (box && /[?&]error=1\b/.test(location.search)) {
+    box.textContent = 'Please enter your name and a valid phone number or email so Andy can reach you.';
+    box.hidden = false;
+  }
+  if (box && /[?&]error=verify\b/.test(location.search)) {
+    box.textContent = 'Please complete the "I am human" check just above the button, then submit again.';
+    box.hidden = false;
   }
 
   // Video testimonials: click-to-play facade. The YouTube iframe only

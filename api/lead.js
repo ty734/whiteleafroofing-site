@@ -29,6 +29,8 @@ export default async function handler(req, res) {
   if (honeypot || (startedAt && Date.now() - startedAt < 3000)) return dropSilently();
 
   // 2. Cloudflare Turnstile (only enforced once the secret is configured).
+  //    A Turnstile miss may be a real customer, so bounce them back to retry
+  //    rather than silently dropping (unlike the honeypot, which is always a bot).
   if (process.env.TURNSTILE_SECRET) {
     const token = String(b['cf-turnstile-response'] || '');
     const ip = req.headers['x-forwarded-for'] || '';
@@ -37,7 +39,12 @@ export default async function handler(req, res) {
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: `secret=${encodeURIComponent(process.env.TURNSTILE_SECRET)}&response=${encodeURIComponent(token)}&remoteip=${encodeURIComponent(ip)}`
     }).then((r) => r.json()).catch(() => ({ success: false }));
-    if (!verify.success) return dropSilently();
+    if (!verify.success) {
+      const msg = 'Please complete the "I am human" check and try again.';
+      return wantsJson
+        ? res.status(400).json({ ok: false, error: msg })
+        : res.redirect(303, (page || '/free-estimate/') + '?error=verify');
+    }
   }
 
   // 3. Content heuristics: links in the message are a near-certain spam signature here.
