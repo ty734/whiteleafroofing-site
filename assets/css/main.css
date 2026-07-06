@@ -98,6 +98,7 @@ nav.main a:hover, nav.main a[aria-current="page"] { color: var(--gold); }
 /* Cards / grids */
 .alt { background: var(--panel); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
 .svc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); }
+.svc-grid.cols-2 { grid-template-columns: 1fr 1fr; }
 .svc { background: var(--panel); padding: 36px 30px 40px; display: flex; flex-direction: column; gap: 14px; transition: background .15s; }
 .svc:hover { background: var(--panel-2); }
 .svc .num { font-family: 'Anton', sans-serif; color: var(--gold); font-size: 15px; letter-spacing: 0.1em; }
@@ -281,7 +282,7 @@ footer.site { background: #100E0A; padding: 64px 0 110px; border-top: 1px solid 
   .ribbon-item:nth-child(odd) { border-left: none; }
   .ribbon-item:nth-child(n+3) { border-top: 1px solid var(--line); }
   .andy-grid, .split { grid-template-columns: 1fr; gap: 40px; }
-  .svc-grid, .rev-grid, .photo-strip { grid-template-columns: 1fr; }
+  .svc-grid, .svc-grid.cols-2, .rev-grid, .photo-strip { grid-template-columns: 1fr; }
   .steps-grid { grid-template-columns: 1fr 1fr; }
   .areas-grid { grid-template-columns: 1fr 1fr; }
   .callbar { display: grid; }
