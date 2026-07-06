@@ -152,7 +152,73 @@
   </div>
 </section>
 
-<section class="alt">
+<section class="alt" id="calculator">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">Try it yourself</p>
+      <h2 class="display">Roof cost calculator</h2>
+    </div>
+    <div class="calc">
+      <div class="calc-grid">
+        <div>
+          <h3>Ballpark your roof in 10 seconds</h3>
+          <p class="hint">Built from the same honest ranges on this page. Every roof still gets a free individual bid.</p>
+          <div class="calc-field">
+            <label for="calc-size">Approximate roof size <span class="val"><span id="calc-size-val">2,200</span> sq ft</span></label>
+            <input type="range" id="calc-size" min="1000" max="5000" step="100" value="2200">
+            <p class="hint" style="margin-top: 10px;">Not sure? A single story home's roof is usually about 1.1 to 1.3 times its floor area. A 2,000 sq ft single story house has roughly a 2,200 to 2,600 sq ft roof.</p>
+          </div>
+          <div class="calc-field">
+            <label id="calc-mat-label">Roofing material</label>
+            <div class="calc-mats" role="group" aria-labelledby="calc-mat-label">
+              <button type="button" data-lo="8" data-hi="15" aria-pressed="true">Tile<span>$8 to $15 / sq ft · the East Valley standard</span></button>
+              <button type="button" data-lo="3.5" data-hi="5.5" aria-pressed="false">Shingle<span>$3.50 to $5.50 / sq ft · budget friendly</span></button>
+              <button type="button" data-lo="7" data-hi="12" aria-pressed="false">Metal<span>$7 to $12 / sq ft · longest lasting</span></button>
+              <button type="button" data-lo="4" data-hi="10" aria-pressed="false">Foam / Flat<span>$4 to $10 / sq ft · flat roofs</span></button>
+            </div>
+          </div>
+        </div>
+        <div class="calc-out">
+          <p class="label-sm">Ballpark replacement range</p>
+          <p class="num" id="calc-result">$17,600 to $33,000</p>
+          <p class="per" id="calc-detail">Tile · 2,200 sq ft</p>
+          <a class="btn btn-gold" href="tel:4803632898">Get your real number: call Andy</a>
+          <p class="fine">This is a ballpark, not a bid. Underlayment grade, roof pitch, and any hidden wood repairs move the real number, which is why the inspection and the bid are free. No pressure either way.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+(function () {
+  var slider = document.getElementById('calc-size');
+  var sizeVal = document.getElementById('calc-size-val');
+  var result = document.getElementById('calc-result');
+  var detail = document.getElementById('calc-detail');
+  var buttons = document.querySelectorAll('.calc-mats button');
+  var mat = { name: 'Tile', lo: 8, hi: 15 };
+  function fmt(n) { return '$' + Math.round(n).toLocaleString('en-US'); }
+  function update() {
+    var sq = Number(slider.value);
+    sizeVal.textContent = sq.toLocaleString('en-US');
+    result.textContent = fmt(sq * mat.lo) + ' to ' + fmt(sq * mat.hi);
+    detail.textContent = mat.name + ' · ' + sq.toLocaleString('en-US') + ' sq ft';
+  }
+  slider.addEventListener('input', update);
+  buttons.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      buttons.forEach(function (b) { b.setAttribute('aria-pressed', 'false'); });
+      btn.setAttribute('aria-pressed', 'true');
+      mat = { name: btn.firstChild.textContent.trim(), lo: Number(btn.dataset.lo), hi: Number(btn.dataset.hi) };
+      update();
+    });
+  });
+  update();
+})();
+</script>
+
+<section>
   <div class="wrap">
     <div class="split">
       <div class="split-copy">
