@@ -29,15 +29,16 @@
     <div class="split" style="align-items: start;">
       <div>
         <h2 class="display" style="font-size: clamp(28px, 3.4vw, 42px); margin-bottom: 26px;">Send a message</h2>
-        <form class="lead-form" data-lead method="POST" action="/api/lead/">
+        <form class="lead-form" data-lead method="POST" action="/api/lead/" novalidate>
           <input type="hidden" name="page" value="/contact/">
           <input type="hidden" name="t" value="">
           <p class="hp" aria-hidden="true"><label>Company <input type="text" name="company" tabindex="-1" autocomplete="off"></label></p>
+          <p class="form-error" role="alert" hidden></p>
           <label>Your name
             <input type="text" name="name" required autocomplete="name">
           </label>
           <label>Email or phone
-            <input type="text" name="email" required autocomplete="email">
+            <input type="text" name="email" required autocomplete="email" title="Enter a valid email address or a phone number with at least 10 digits.">
           </label>
           <label>Your question or message
             <textarea name="message" required></textarea>

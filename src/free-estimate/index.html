@@ -34,15 +34,16 @@
     <div class="split" style="align-items: start;">
       <div>
         <h2 class="display" style="font-size: clamp(28px, 3.4vw, 42px); margin-bottom: 26px;">Prefer a callback? Take 30 seconds.</h2>
-        <form class="lead-form" data-lead method="POST" action="/api/lead/">
+        <form class="lead-form" data-lead method="POST" action="/api/lead/" novalidate>
           <input type="hidden" name="page" value="/free-estimate/">
           <input type="hidden" name="t" value="">
           <p class="hp" aria-hidden="true"><label>Company <input type="text" name="company" tabindex="-1" autocomplete="off"></label></p>
+          <p class="form-error" role="alert" hidden></p>
           <label>Your name
             <input type="text" name="name" required autocomplete="name">
           </label>
           <label>Your best phone number
-            <input type="tel" name="phone" required autocomplete="tel">
+            <input type="tel" name="phone" required autocomplete="tel" inputmode="tel" pattern="[\d\s\-\(\)\.\+]{10,}" title="Please enter a phone number with at least 10 digits.">
           </label>
           <label>What's going on with your roof? (optional)
             <textarea name="message" placeholder="Leak, broken tiles, getting bids on a replacement, not sure..."></textarea>
