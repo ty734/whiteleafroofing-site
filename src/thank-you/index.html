@@ -27,6 +27,13 @@
   </div>
 </section>
 
+<script>
+  // Conversion signal for GTM: a completed lead (the new form redirects here on success).
+  // Point a GTM "Custom Event = lead_submitted" trigger at your GA4 lead conversion
+  // and the Google Ads "Submit lead form" conversion. Replaces the old Elementor form event.
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({ event: 'lead_submitted', lead_source_page: document.referrer || '' });
+</script>
 <!-- @footer -->
 <!-- @callbar -->
 </body>
