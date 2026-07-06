@@ -133,7 +133,7 @@
         <span class="num">/ 02</span>
         <h3>Concrete &amp; Clay Tile</h3>
         <p>The Arizona classic. Tile handles our heat better than anything, and the tiles themselves often outlive the rest of the roof. Clay generally costs more than concrete.</p>
-        <span class="range">Roughly $8 to $15 per sq ft</span>
+        <span class="range">Roughly $5 to $12 per sq ft, less when your tiles can be reused</span>
       </div>
       <div class="svc">
         <span class="num">/ 03</span>
@@ -171,7 +171,7 @@
           <div class="calc-field">
             <label id="calc-mat-label">Roofing material</label>
             <div class="calc-mats" role="group" aria-labelledby="calc-mat-label">
-              <button type="button" data-lo="8" data-hi="15" aria-pressed="true">Tile<span>$8 to $15 / sq ft · the East Valley standard</span></button>
+              <button type="button" data-lo="5" data-hi="12" aria-pressed="true">Tile<span>$5 to $12 / sq ft · often less with reused tiles</span></button>
               <button type="button" data-lo="3.5" data-hi="5.5" aria-pressed="false">Shingle<span>$3.50 to $5.50 / sq ft · budget friendly</span></button>
               <button type="button" data-lo="7" data-hi="12" aria-pressed="false">Metal<span>$7 to $12 / sq ft · longest lasting</span></button>
               <button type="button" data-lo="4" data-hi="10" aria-pressed="false">Foam / Flat<span>$4 to $10 / sq ft · flat roofs</span></button>
@@ -180,10 +180,10 @@
         </div>
         <div class="calc-out">
           <p class="label-sm">Ballpark replacement range</p>
-          <p class="num" id="calc-result">$17,600 to $33,000</p>
+          <p class="num" id="calc-result">$11,000 to $26,400</p>
           <p class="per" id="calc-detail">Tile · 2,200 sq ft</p>
           <a class="btn btn-gold" href="tel:4803632898">Get your real number: call Andy</a>
-          <p class="fine">This is a ballpark, not a bid. Underlayment grade, roof pitch, and any hidden wood repairs move the real number, which is why the inspection and the bid are free. No pressure either way.</p>
+          <p class="fine">This is a ballpark, not a bid, and tile estimates often come in LOWER: when your existing tiles can be reused (very common here), you mostly pay for underlayment and labor. Underlayment grade, roof pitch, and any hidden wood repairs move the real number, which is why the inspection and the bid are free.</p>
         </div>
       </div>
     </div>
@@ -197,7 +197,7 @@
   var result = document.getElementById('calc-result');
   var detail = document.getElementById('calc-detail');
   var buttons = document.querySelectorAll('.calc-mats button');
-  var mat = { name: 'Tile', lo: 8, hi: 15 };
+  var mat = { name: 'Tile', lo: 5, hi: 12 };
   function fmt(n) { return '$' + Math.round(n).toLocaleString('en-US'); }
   function update() {
     var sq = Number(slider.value);
