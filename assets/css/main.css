@@ -305,10 +305,18 @@ footer.site { background: #100E0A; padding: 64px 0 110px; border-top: 1px solid 
   .areas-grid { grid-template-columns: 1fr 1fr; }
   .callbar { display: grid; }
   footer.site { padding-bottom: 140px; }
-  .header-phone .btn { display: none; }
+  /* Primary nav collapses on mobile; surface the estimate CTA instead of
+     hiding it. display:contents lets the header lay out as three items:
+     logo (left) | phone number (center) | Free Estimates button (right). */
+  .header-phone { display: contents; }
+  .header-phone .btn { display: inline-flex; }
   .foot-grid { grid-template-columns: 1fr 1fr; }
 }
 @media (max-width: 560px) {
   .areas-grid, .steps-grid { grid-template-columns: 1fr; }
   .hero-inner { padding: 64px 24px 80px; }
+  /* Keep logo + number + button on one row without overflowing small phones. */
+  .site-inner { gap: 8px; padding: 10px 14px; }
+  .header-phone .num { font-size: 15px; }
+  .header-phone .btn { padding: 9px 13px; font-size: 13px; }
 }
