@@ -42,7 +42,7 @@ header.site { position: sticky; top: 0; z-index: 50; background: rgba(22,20,15,0
 .site-inner { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 12px 24px; max-width: 1180px; margin: 0 auto; }
 .site-logo { display: inline-block; }
 .site-logo img { height: 58px; width: auto; }
-@media (max-width: 560px) { .site-logo img { height: 46px; } }
+@media (max-width: 560px) { .site-logo img { height: 40px; } }
 nav.main { display: flex; gap: 26px; font-size: 14.5px; font-weight: 600; }
 nav.main a { text-decoration: none; color: var(--bone-dim); transition: color .15s; }
 nav.main a:hover, nav.main a[aria-current="page"] { color: var(--gold); }
@@ -309,14 +309,20 @@ footer.site { background: #100E0A; padding: 64px 0 110px; border-top: 1px solid 
      hiding it. display:contents lets the header lay out as three items:
      logo (left) | phone number (center) | Free Estimates button (right). */
   .header-phone { display: contents; }
-  .header-phone .btn { display: inline-flex; }
+  .header-phone .btn { display: inline-flex; white-space: nowrap; flex-shrink: 0; }
   .foot-grid { grid-template-columns: 1fr 1fr; }
 }
 @media (max-width: 560px) {
   .areas-grid, .steps-grid { grid-template-columns: 1fr; }
   .hero-inner { padding: 64px 24px 80px; }
   /* Keep logo + number + button on one row without overflowing small phones. */
-  .site-inner { gap: 8px; padding: 10px 14px; }
-  .header-phone .num { font-size: 15px; }
-  .header-phone .btn { padding: 9px 13px; font-size: 13px; }
+  .site-inner { gap: 8px; padding: 10px 12px; }
+  .header-phone .num { font-size: 14px; }
+  .header-phone .btn { padding: 8px 12px; font-size: 12.5px; }
+}
+@media (max-width: 400px) {
+  .site-logo img { height: 36px; }
+  .site-inner { gap: 6px; padding: 10px 10px; }
+  .header-phone .num { font-size: 13px; }
+  .header-phone .btn { padding: 7px 10px; font-size: 12px; }
 }
