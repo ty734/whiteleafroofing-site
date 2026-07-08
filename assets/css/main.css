@@ -247,7 +247,7 @@ footer.site { background: #100E0A; padding: 64px 0 110px; border-top: 1px solid 
 .article-body p { margin: 0 0 18px; }
 .article-body ul, .article-body ol { margin: 0 0 18px 24px; }
 .article-body li { margin-bottom: 8px; }
-.article-body a { color: var(--gold-deep); text-decoration: underline; text-underline-offset: 3px; }
+.article-body a { color: #7E5C06; text-decoration: underline; text-underline-offset: 3px; }
 .article-body img { margin: 28px 0; width: 100%; height: auto; }
 .article-body blockquote { border-left: 3px solid var(--gold); padding: 4px 0 4px 20px; margin: 24px 0; font-style: italic; color: #57503C; }
 .article-body strong { color: #16140F; }
