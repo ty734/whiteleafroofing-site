@@ -45,8 +45,9 @@ def asset_version(path: Path) -> str:
 def main() -> None:
     partials = {m: (PARTIALS / f).read_text(encoding="utf-8") for m, f in MARKERS.items()}
 
-    # Cache-busting: assets are served immutable, so mutated css/js need versioned URLs
-    css_v = asset_version(ASSETS / "css" / "main.css")
+    # Cache-busting: assets are served immutable, so mutated js needs a versioned URL.
+    # CSS is small and render-blocking, so we inline it instead (better FCP/LCP).
+    css_text = (ASSETS / "css" / "main.css").read_text(encoding="utf-8")
     js_v = asset_version(ASSETS / "js" / "site.js")
 
     if PUBLIC.exists():
@@ -64,7 +65,7 @@ def main() -> None:
         if top != "leads":
             html = html.replace("<head>", "<head>\n" + GTM_HEAD, 1)
             html = html.replace("<body>", "<body>\n" + GTM_BODY, 1)
-        html = html.replace('href="/assets/css/main.css"', f'href="/assets/css/main.css?v={css_v}"')
+        html = html.replace('<link rel="stylesheet" href="/assets/css/main.css">', "<style>" + css_text + "</style>")
         html = html.replace('src="/assets/js/site.js"', f'src="/assets/js/site.js?v={js_v}"')
         leftovers = [m for m in MARKERS if m in html]
         if leftovers:
