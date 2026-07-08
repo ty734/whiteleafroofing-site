@@ -25,6 +25,7 @@ MARKERS = {
 # Google Tag Manager (same container as the old WordPress site: GTM Kit)
 GTM_ID = "GTM-M5CC3JS"
 GTM_HEAD = (
+    '<link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>'
     "<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),"
     "event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?"
     "'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;"
