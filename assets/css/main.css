@@ -1,7 +1,7 @@
 /* White Leaf Roofing — "Iron & Gold" design system */
-@font-face { font-family: 'Anton'; src: url(/assets/fonts/anton-400.woff2) format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
-@font-face { font-family: 'Inter'; src: url(/assets/fonts/inter-400.woff2) format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
-@font-face { font-family: 'Inter'; src: url(/assets/fonts/inter-600.woff2) format('woff2'); font-weight: 600; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Anton'; src: url(/assets/fonts/anton-400.woff2) format('woff2'); font-weight: 400; font-style: normal; font-display: optional; }
+@font-face { font-family: 'Inter'; src: url(/assets/fonts/inter-400.woff2) format('woff2'); font-weight: 400; font-style: normal; font-display: optional; }
+@font-face { font-family: 'Inter'; src: url(/assets/fonts/inter-600.woff2) format('woff2'); font-weight: 600; font-style: normal; font-display: optional; }
 
 :root {
   --ink: #16140F;
