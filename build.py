@@ -35,13 +35,6 @@ GTM_BODY = (
     'height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>'
 )
 
-# CallRail dynamic number insertion (swaps the displayed phone to per-source
-# tracking numbers so calls are attributed to Google Ads / GMB / etc.)
-CALLRAIL_SWAP = (
-    '<script type="text/javascript" '
-    'src="//cdn.callrail.com/companies/356512226/6b27ce92e58ce45ba2a4/12/swap.js"></script>'
-)
-
 
 def asset_version(path: Path) -> str:
     import hashlib
@@ -65,12 +58,11 @@ def main() -> None:
         for marker, content in partials.items():
             html = html.replace(marker, content)
         # The private leads dashboard is a tool, not a marketing page: no GTM,
-        # no CallRail number-swapping, and it stays out of the sitemap (below).
+        # and it stays out of the sitemap (below).
         top = page.relative_to(SRC).parts[0]
         if top != "leads":
             html = html.replace("<head>", "<head>\n" + GTM_HEAD, 1)
             html = html.replace("<body>", "<body>\n" + GTM_BODY, 1)
-            html = html.replace("</body>", CALLRAIL_SWAP + "\n</body>", 1)
         html = html.replace('href="/assets/css/main.css"', f'href="/assets/css/main.css?v={css_v}"')
         html = html.replace('src="/assets/js/site.js"', f'src="/assets/js/site.js?v={js_v}"')
         leftovers = [m for m in MARKERS if m in html]

@@ -220,6 +220,11 @@
       "permanent": true
     },
     {
+      "source": "/metal-roofing-pros-and-cons/",
+      "destination": "/best-type-of-roofing-in-arizona/",
+      "permanent": true
+    },
+    {
       "source": "/tag/:path(.*)",
       "destination": "/",
       "permanent": true
