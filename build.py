@@ -36,6 +36,16 @@ GTM_BODY = (
     'height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>'
 )
 
+# Google Ads tag (gtag.js), loaded directly — NOT via the GTM container, so conversion
+# tracking never depends on container publishes. Do not also add AW-11135708302 inside
+# GTM or conversions will double-count. Website-call number swap lives in site.js.
+AW_ID = "AW-11135708302"
+GTAG_HEAD = (
+    f'<script async src="https://www.googletagmanager.com/gtag/js?id={AW_ID}"></script>'
+    "<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}"
+    f"gtag('js',new Date());gtag('config','{AW_ID}');</script>"
+)
+
 
 def asset_version(path: Path) -> str:
     import hashlib
@@ -63,7 +73,7 @@ def main() -> None:
         # and it stays out of the sitemap (below).
         top = page.relative_to(SRC).parts[0]
         if top != "leads":
-            html = html.replace("<head>", "<head>\n" + GTM_HEAD, 1)
+            html = html.replace("<head>", "<head>\n" + GTM_HEAD + GTAG_HEAD, 1)
             html = html.replace("<body>", "<body>\n" + GTM_BODY, 1)
         html = html.replace('<link rel="stylesheet" href="/assets/css/main.css">', "<style>" + css_text + "</style>")
         html = html.replace('src="/assets/js/site.js"', f'src="/assets/js/site.js?v={js_v}"')
@@ -83,7 +93,7 @@ def main() -> None:
 
 
 SITE = "https://whiteleafroofing.com"
-NOINDEX = {"thank-you", "404", "leads"}
+NOINDEX = {"thank-you", "404", "leads", "roofers-east-valley"}  # last one: paid-search LP only
 
 
 def write_sitemap(pages) -> None:

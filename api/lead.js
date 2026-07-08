@@ -67,13 +67,25 @@ export default async function handler(req, res) {
       : res.redirect(303, '/free-estimate/?error=1');
   }
 
+  // Ad attribution (hidden fields injected by site.js). Lets each lead email say
+  // which campaign/keyword produced it, and the gclid enables offline conversion
+  // value uploads back into Google Ads when a job is sold.
+  const attr = {};
+  for (const k of ['gclid', 'gbraid', 'wbraid', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'landing', 'referrer']) {
+    const v = String(b[k] || '').trim().slice(0, 200);
+    if (v) attr[k] = v;
+  }
+
   const lines = [
     `Name: ${name}`,
     `Phone: ${phone || '(not given)'}`,
     `Email: ${email || '(not given)'}`,
     message ? `Message: ${message}` : null,
     page ? `Came from: https://whiteleafroofing.com${page}` : null,
-    `Received: ${new Date().toLocaleString('en-US', { timeZone: 'America/Phoenix' })} (Phoenix time)`
+    `Received: ${new Date().toLocaleString('en-US', { timeZone: 'America/Phoenix' })} (Phoenix time)`,
+    Object.keys(attr).length
+      ? '\n--- Ad tracking (for Tyler) ---\n' + Object.entries(attr).map(([k, v]) => `${k}: ${v}`).join('\n')
+      : null
   ].filter(Boolean);
 
   // Strip stray non-printable characters (e.g. a BOM) from the key so the header is always valid.

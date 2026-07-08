@@ -33,6 +33,11 @@
   // and the Google Ads "Submit lead form" conversion. Replaces the old Elementor form event.
   window.dataLayer = window.dataLayer || [];
   window.dataLayer.push({ event: 'lead_submitted', lead_source_page: document.referrer || '' });
+  // Google Ads conversion: "Website Lead - Form Submit (thank-you)" (fires via the
+  // sitewide gtag, independent of GTM — do NOT also tag this conversion in GTM).
+  if (typeof gtag === 'function') {
+    gtag('event', 'conversion', { send_to: 'AW-11135708302/e4dUCJnZms0cEI7Z9b0p' });
+  }
 </script>
 <!-- @footer -->
 <!-- @callbar -->
