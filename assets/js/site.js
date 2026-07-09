@@ -28,6 +28,14 @@
         e.preventDefault();
         return fail('Please enter a valid phone number (at least 10 digits) or email address so Andy can reach you.');
       }
+      // Enhanced conversions: stash contact info for the thank-you page to pass
+      // to Google (hashed by gtag) so iOS-blocked conversions still get matched.
+      try {
+        sessionStorage.setItem('wlr_ec', JSON.stringify({
+          em: email.trim().toLowerCase(),
+          ph: phone.replace(/\D/g, '')
+        }));
+      } catch (err2) { /* non-essential */ }
     });
   });
 

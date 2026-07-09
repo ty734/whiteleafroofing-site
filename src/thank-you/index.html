@@ -35,7 +35,17 @@
   window.dataLayer.push({ event: 'lead_submitted', lead_source_page: document.referrer || '' });
   // Google Ads conversion: "Website Lead - Form Submit (thank-you)" (fires via the
   // sitewide gtag, independent of GTM — do NOT also tag this conversion in GTM).
+  // Enhanced conversions: pass the lead's contact info (stashed at form submit);
+  // gtag hashes it client-side so Google can match conversions lost to iOS privacy.
   if (typeof gtag === 'function') {
+    try {
+      var ec = JSON.parse(sessionStorage.getItem('wlr_ec') || '{}');
+      var ud = {};
+      if (ec.em && ec.em.indexOf('@') > 0) ud.email = ec.em;
+      if (ec.ph && ec.ph.length >= 10) ud.phone_number = '+1' + ec.ph.slice(-10);
+      if (Object.keys(ud).length) gtag('set', 'user_data', ud);
+      sessionStorage.removeItem('wlr_ec');
+    } catch (e) { /* fire the conversion regardless */ }
     gtag('event', 'conversion', { send_to: 'AW-11135708302/e4dUCJnZms0cEI7Z9b0p' });
   }
 </script>
