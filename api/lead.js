@@ -27,12 +27,10 @@ export default async function handler(req, res) {
   const dropSilently = () =>
     wantsJson ? res.status(200).json({ ok: true }) : res.redirect(303, '/thank-you/');
 
-  // 1. Honeypot filled, or submitted faster than a human could type.
-  if (honeypot || (startedAt && Date.now() - startedAt < 3000)) return dropSilently();
-
-  // 2. Cloudflare Turnstile (only enforced once the secret is configured).
+  // 1. Cloudflare Turnstile first (only enforced once the secret is configured).
   //    A Turnstile miss may be a real customer, so bounce them back to retry
-  //    rather than silently dropping (unlike the honeypot, which is always a bot).
+  //    rather than silently dropping.
+  let turnstileVerified = false;
   if (process.env.TURNSTILE_SECRET) {
     const token = String(b['cf-turnstile-response'] || '');
     const ip = req.headers['x-forwarded-for'] || '';
@@ -47,12 +45,25 @@ export default async function handler(req, res) {
         ? res.status(400).json({ ok: false, error: msg })
         : res.redirect(303, (page || '/free-estimate/') + '?error=verify');
     }
+    turnstileVerified = true;
   }
 
-  // 3. Content heuristics: links in the message are a near-certain spam signature here.
-  if (/https?:\/\/|www\.|\[url\]|<a\s/i.test(message)) return dropSilently();
-  // A "name" with no letters is a bot.
-  if (name && !/[a-z]/i.test(name)) return dropSilently();
+  // 2. Bot heuristics. A Turnstile-verified submitter is near-certainly human, so
+  //    heuristics only FLAG their lead as suspicious (never drop it) — browser
+  //    autofill fills hidden "company" honeypots on real people's forms, which is
+  //    how we once lost a real test lead. Without Turnstile, heuristics still drop.
+  const suspicious = [];
+  const suspect = (reason) => {
+    if (!turnstileVerified) return true; // caller drops
+    suspicious.push(reason);
+    return false;
+  };
+  if ((honeypot && suspect('honeypot field was filled (likely browser autofill)')) ||
+      (startedAt && Date.now() - startedAt < 3000 && suspect('submitted under 3s after page load')) ||
+      (/https?:\/\/|www\.|\[url\]|<a\s/i.test(message) && suspect('message contains a link')) ||
+      (name && !/[a-z]/i.test(name) && suspect('name has no letters'))) {
+    return dropSilently();
+  }
 
   // 4. Real validation: a valid email OR a real phone number must be present.
   //    (The contact form uses one "email or phone" field, so check digits across both.)
@@ -77,6 +88,7 @@ export default async function handler(req, res) {
   }
 
   const lines = [
+    suspicious.length ? `SUSPICIOUS (passed human check, but): ${suspicious.join('; ')}` : null,
     `Name: ${name}`,
     `Phone: ${phone || '(not given)'}`,
     `Email: ${email || '(not given)'}`,
