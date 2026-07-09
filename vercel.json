@@ -3,7 +3,7 @@
   "buildCommand": "python3 build.py",
   "outputDirectory": "public",
   "crons": [
-    { "path": "/api/review-ask", "schedule": "0 16 * * 4" }
+    { "path": "/api/review-ask/", "schedule": "0 16 * * 4" }
   ],
   "headers": [
     {
