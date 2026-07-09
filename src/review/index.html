@@ -11,7 +11,7 @@
 <link rel="preload" href="/assets/fonts/anton-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/assets/css/main.css">
 <style>
-  .rate-row { display: flex; gap: 10px; margin: 18px 0 6px; }
+  .rate-row { display: flex; gap: 10px; margin: 12px 0 8px; }
   .rate-btn {
     width: 56px; height: 56px; font-size: 22px; font-weight: 700;
     background: #fff; color: var(--ink, #1C241D);
@@ -20,8 +20,14 @@
   }
   .rate-btn:hover { border-color: var(--gold, #DEA816); transform: translateY(-2px); }
   .rate-btn[aria-pressed="true"] { background: var(--gold, #DEA816); border-color: var(--gold, #DEA816); color: #1C241D; }
-  .rate-scale { display: flex; justify-content: space-between; max-width: 320px; font-size: 13px; opacity: .7; margin-bottom: 8px; }
+  .rate-scale { display: flex; justify-content: space-between; max-width: 320px; font-size: 13px; opacity: .7; }
   @media (max-width: 480px) { .rate-btn { width: 48px; height: 48px; } }
+
+  /* Review form reuses the site's .lead-form field styling (panel bg, 16.5px text,
+     proper padding). Labels stay sentence-case and readable for this customer page. */
+  #review-form label { text-transform: none; letter-spacing: 0; font-size: 15px; font-weight: 600; color: var(--bone); }
+  #review-form .rate-q { font-size: 17px; }
+  #review-form .rate-block { gap: 0; }
 </style>
 </head>
 <body>
@@ -33,31 +39,33 @@
     <h1 class="display">How did <em>we do?</em></h1>
     <p class="sub">Thanks for letting me work on your roof. I read every one of these myself, and this is how I keep White Leaf honest.</p>
 
-    <form id="review-form" novalidate>
+    <form id="review-form" class="lead-form" novalidate>
       <input type="hidden" name="t" value="">
-      <p class="hp" aria-hidden="true" style="position:absolute;left:-9999px;"><label>Company <input type="text" name="company" tabindex="-1" autocomplete="off"></label></p>
+      <p class="hp" aria-hidden="true"><label>Company <input type="text" name="company" tabindex="-1" autocomplete="off"></label></p>
 
-      <label style="display:block; font-weight:600; margin-top: 26px;">How likely are you to recommend White Leaf to a friend or neighbor?</label>
-      <div class="rate-row" role="radiogroup" aria-label="Rating from 1 to 5">
-        <button type="button" class="rate-btn" data-r="1" aria-pressed="false">1</button>
-        <button type="button" class="rate-btn" data-r="2" aria-pressed="false">2</button>
-        <button type="button" class="rate-btn" data-r="3" aria-pressed="false">3</button>
-        <button type="button" class="rate-btn" data-r="4" aria-pressed="false">4</button>
-        <button type="button" class="rate-btn" data-r="5" aria-pressed="false">5</button>
+      <div class="rate-block">
+        <label class="rate-q">How likely are you to recommend White Leaf to a friend or neighbor?</label>
+        <div class="rate-row" role="radiogroup" aria-label="Rating from 1 to 5">
+          <button type="button" class="rate-btn" data-r="1" aria-pressed="false">1</button>
+          <button type="button" class="rate-btn" data-r="2" aria-pressed="false">2</button>
+          <button type="button" class="rate-btn" data-r="3" aria-pressed="false">3</button>
+          <button type="button" class="rate-btn" data-r="4" aria-pressed="false">4</button>
+          <button type="button" class="rate-btn" data-r="5" aria-pressed="false">5</button>
+        </div>
+        <div class="rate-scale"><span>Not likely</span><span>Absolutely</span></div>
       </div>
-      <div class="rate-scale" style="max-width: 320px;"><span>Not likely</span><span>Absolutely</span></div>
 
-      <label style="display:block; font-weight:600; margin-top: 20px;">Anything you want me to know?
-        <textarea name="feedback" rows="4" maxlength="3000" style="width:100%; margin-top:8px;" placeholder="What went well, what didn't, what I should do differently."></textarea>
+      <label>Anything you want me to know?
+        <textarea name="feedback" rows="5" maxlength="3000" placeholder="What went well, what didn't, what I should do differently."></textarea>
       </label>
 
-      <label style="display:block; font-weight:600; margin-top: 16px;">Your name (optional)
-        <input type="text" name="name" autocomplete="name" style="width:100%; margin-top:8px;">
+      <label>Your name <span class="opt">(optional)</span>
+        <input type="text" name="name" autocomplete="name">
       </label>
 
-      <p class="form-error" role="alert" hidden style="color:#b23b2e; margin-top:14px;"></p>
-      <button type="submit" class="btn btn-gold btn-lg" style="margin-top: 22px;">Send to Andy</button>
-      <p class="form-note" style="margin-top:12px;">Goes straight to Andy. Not a mailing list.</p>
+      <p class="form-error" role="alert" hidden></p>
+      <button type="submit" class="btn btn-gold btn-lg">Send to Andy</button>
+      <p class="form-note">Goes straight to Andy. Not a mailing list.</p>
     </form>
 
     <div id="review-done" hidden>
