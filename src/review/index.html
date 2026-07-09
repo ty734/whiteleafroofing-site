@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How Did We Do? | White Leaf Roofing</title>
+<meta name="description" content="Tell Andy how your roofing job went. Two questions, thirty seconds.">
+<link rel="canonical" href="https://whiteleafroofing.com/review/">
+<meta name="robots" content="noindex, follow">
+<link rel="icon" href="/assets/img/favicon.webp" type="image/webp">
+<link rel="preload" href="/assets/fonts/anton-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/css/main.css">
+<style>
+  .rate-row { display: flex; gap: 10px; margin: 18px 0 6px; }
+  .rate-btn {
+    width: 56px; height: 56px; font-size: 22px; font-weight: 700;
+    background: #fff; color: var(--ink, #1C241D);
+    border: 2px solid rgba(28,36,29,.25); border-radius: 10px; cursor: pointer;
+    transition: border-color .15s, background .15s, transform .1s;
+  }
+  .rate-btn:hover { border-color: var(--gold, #DEA816); transform: translateY(-2px); }
+  .rate-btn[aria-pressed="true"] { background: var(--gold, #DEA816); border-color: var(--gold, #DEA816); color: #1C241D; }
+  .rate-scale { display: flex; justify-content: space-between; max-width: 320px; font-size: 13px; opacity: .7; margin-bottom: 8px; }
+  @media (max-width: 480px) { .rate-btn { width: 48px; height: 48px; } }
+</style>
+</head>
+<body>
+<!-- @header -->
+
+<section class="page-hero" style="padding: 90px 0 60px;">
+  <div class="wrap" style="max-width: 720px;">
+    <p class="eyebrow">Thirty seconds, two questions</p>
+    <h1 class="display">How did <em>we do?</em></h1>
+    <p class="sub">Thanks for letting me work on your roof. I read every one of these myself, and this is how I keep White Leaf honest.</p>
+
+    <form id="review-form" novalidate>
+      <input type="hidden" name="t" value="">
+      <p class="hp" aria-hidden="true" style="position:absolute;left:-9999px;"><label>Company <input type="text" name="company" tabindex="-1" autocomplete="off"></label></p>
+
+      <label style="display:block; font-weight:600; margin-top: 26px;">How likely are you to recommend White Leaf to a friend or neighbor?</label>
+      <div class="rate-row" role="radiogroup" aria-label="Rating from 1 to 5">
+        <button type="button" class="rate-btn" data-r="1" aria-pressed="false">1</button>
+        <button type="button" class="rate-btn" data-r="2" aria-pressed="false">2</button>
+        <button type="button" class="rate-btn" data-r="3" aria-pressed="false">3</button>
+        <button type="button" class="rate-btn" data-r="4" aria-pressed="false">4</button>
+        <button type="button" class="rate-btn" data-r="5" aria-pressed="false">5</button>
+      </div>
+      <div class="rate-scale" style="max-width: 320px;"><span>Not likely</span><span>Absolutely</span></div>
+
+      <label style="display:block; font-weight:600; margin-top: 20px;">Anything you want me to know?
+        <textarea name="feedback" rows="4" maxlength="3000" style="width:100%; margin-top:8px;" placeholder="What went well, what didn't, what I should do differently."></textarea>
+      </label>
+
+      <label style="display:block; font-weight:600; margin-top: 16px;">Your name (optional)
+        <input type="text" name="name" autocomplete="name" style="width:100%; margin-top:8px;">
+      </label>
+
+      <p class="form-error" role="alert" hidden style="color:#b23b2e; margin-top:14px;"></p>
+      <button type="submit" class="btn btn-gold btn-lg" style="margin-top: 22px;">Send to Andy</button>
+      <p class="form-note" style="margin-top:12px;">Goes straight to Andy. Not a mailing list.</p>
+    </form>
+
+    <div id="review-done" hidden>
+      <h2 class="display" style="font-size: clamp(28px, 3.5vw, 42px); margin-top: 30px;">Thank you.</h2>
+      <p class="sub" id="done-msg"></p>
+      <div class="hero-ctas" style="margin-top: 24px;">
+        <a id="done-google" class="btn btn-gold btn-lg" href="#" hidden>Leave the review on Google</a>
+        <a class="btn btn-ghost btn-lg" href="/">Back to the homepage</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+(function () {
+  // Paste the GBP "Get more reviews" share link here once the profile is verified.
+  // While empty, 4-5 star customers just see a thank-you instead of a Google redirect.
+  var GOOGLE_REVIEW_URL = "";
+
+  var form = document.getElementById('review-form');
+  var done = document.getElementById('review-done');
+  var doneMsg = document.getElementById('done-msg');
+  var doneGoogle = document.getElementById('done-google');
+  var errEl = form.querySelector('.form-error');
+  var rating = 0;
+  form.querySelector('[name=t]').value = Date.now();
+
+  form.querySelectorAll('.rate-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      rating = Number(btn.dataset.r);
+      form.querySelectorAll('.rate-btn').forEach(function (b) {
+        b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
+      });
+      errEl.hidden = true;
+    });
+  });
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (!rating) {
+      errEl.textContent = 'Pick a number from 1 to 5 first.';
+      errEl.hidden = false;
+      return;
+    }
+    var payload = {
+      rating: rating,
+      feedback: form.feedback.value,
+      name: form.name.value,
+      company: form.company.value,
+      t: Number(form.querySelector('[name=t]').value)
+    };
+    var btn = form.querySelector('[type=submit]');
+    btn.disabled = true; btn.textContent = 'Sending...';
+    fetch('/api/review/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(payload)
+    }).catch(function () { /* show thanks regardless; email failure is logged server-side */ })
+      .then(function () {
+        form.hidden = true;
+        done.hidden = false;
+        if (rating >= 4 && GOOGLE_REVIEW_URL) {
+          doneMsg.innerHTML = 'That means a lot. Reviews are how a one-man shop competes with the big companies. <strong>Would you take one more minute and say the same thing on Google?</strong>';
+          doneGoogle.href = GOOGLE_REVIEW_URL;
+          doneGoogle.hidden = false;
+          setTimeout(function () { window.location.href = GOOGLE_REVIEW_URL; }, 3500);
+        } else if (rating >= 4) {
+          doneMsg.textContent = 'That means a lot. I appreciate you taking the time.';
+        } else {
+          doneMsg.textContent = "I'm sorry it wasn't right. Your note just hit my inbox and I'll call you personally to fix it. If you'd rather not wait, call or text me at 480-363-2898.";
+        }
+      });
+  });
+})();
+</script>
+
+<!-- @footer -->
+<!-- @callbar -->
+</body>
+</html>

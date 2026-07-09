@@ -93,7 +93,7 @@ def main() -> None:
 
 
 SITE = "https://whiteleafroofing.com"
-NOINDEX = {"thank-you", "404", "leads", "roofers-east-valley"}  # last one: paid-search LP only
+NOINDEX = {"thank-you", "404", "leads", "roofers-east-valley", "review"}  # LP is paid-search only; review is the post-job feedback gate
 
 
 def write_sitemap(pages) -> None:
