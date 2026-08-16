@@ -14,6 +14,7 @@
 <link rel="icon" href="/assets/img/favicon.webp" type="image/webp">
 <link rel="preload" href="/assets/fonts/anton-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/assets/css/main.css">
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -230,6 +231,47 @@
   </div>
 </section>
 
+<section id="callback">
+  <div class="wrap">
+    <div class="split" style="align-items: start;">
+      <div>
+        <h2 class="display" style="font-size: clamp(28px, 3.4vw, 42px); margin-bottom: 26px;">Prefer a callback? Take 30 seconds.</h2>
+        <form class="lead-form" data-lead method="POST" action="/api/lead/" novalidate>
+          <input type="hidden" name="page" value="/roof-repair/">
+          <input type="hidden" name="t" value="">
+          <p class="hp" aria-hidden="true"><label>Company <input type="text" name="company" tabindex="-1" autocomplete="off"></label></p>
+          <p class="form-error" role="alert" hidden></p>
+          <label>Your name
+            <input type="text" name="name" required autocomplete="name">
+          </label>
+          <label>Your best phone number
+            <input type="tel" name="phone" autocomplete="tel" inputmode="tel" pattern="[\d\s\-\(\)\.\+]{10,}" title="Please enter a phone number with at least 10 digits.">
+          </label>
+          <label>Your email <span class="opt">(if you'd rather not give a phone)</span>
+            <input type="email" name="email" autocomplete="email" inputmode="email">
+          </label>
+          <label>What's going on with your roof? (optional)
+            <textarea name="message" placeholder="Leak, broken tiles, water stain on the ceiling, not sure..."></textarea>
+          </label>
+          <div class="cf-turnstile" data-sitekey="0x4AAAAAADwPZTwFOJ0jK9Kd" data-theme="dark"></div>
+          <button class="btn btn-gold" type="submit">Request my callback</button>
+          <p class="form-note">Goes straight to Andy's inbox. No mailing lists, no follow-up sales calls.</p>
+        </form>
+      </div>
+      <div>
+        <h3>Where I work</h3>
+        <p>Chandler, Gilbert, Queen Creek, Sun Lakes, Gold Canyon and Mesa. If you're nearby and not sure, call me and ask.</p>
+        <h3 style="margin-top: 24px;">What happens when you reach out</h3>
+        <ul class="andy-rules">
+          <li><span class="no">01</span><span>You call or text me, or I call you back, usually the same day.</span></li>
+          <li><span class="no">02</span><span>I come out and inspect the roof myself. It costs nothing.</span></li>
+          <li><span class="no">03</span><span>You get an honest estimate with photos. What you do with it is up to you.</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="final">
   <div class="wrap">
     <p class="eyebrow">Free inspection · East Valley, AZ · ROC #325377</p>
@@ -237,7 +279,7 @@
     <p>Call or text me a photo of the problem. I'll give you an honest read, usually the same day, and a fair bid to fix exactly what's wrong.</p>
     <div class="btns">
       <a class="btn btn-ink" href="tel:4803632898">Call or text Andy: 480-363-2898</a>
-      <a class="btn btn-line" href="/free-estimate/">Request a callback instead</a>
+      <a class="btn btn-line" href="#callback">Request a callback instead</a>
     </div>
     <small>White Leaf Roofing · 3210 S. Gilbert Rd Ste. 1, Chandler, AZ 85286</small>
   </div>
