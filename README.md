@@ -4,7 +4,7 @@ Static HTML site for whiteleafroofing.com, built for conversions + local SEO + o
 
 ## Layout
 ```
-partials/     header.html, footer.html, callbar.html (shared chrome, injected at build)
+partials/     header.html, footer.html, callbar.html, callback.html (injected at build)
 src/          page sources, one folder per URL (src/chandler/index.html -> /chandler/)
 assets/       css, fonts (self-hosted woff2), img (real photos + Higgsfield-generated heroes), js
 api/lead.js   serverless lead endpoint -> emails andy@wlcbuilt.com + tycoles@gmail.com via Resend
@@ -15,6 +15,7 @@ public/       build output (what Vercel serves) — never edit by hand
 
 ## Rules for adding pages (Claude reads this)
 1. Copy an existing src page as the shell; keep `<!-- @header -->`, `<!-- @footer -->`, `<!-- @callbar -->` markers.
+1b. **Every page an ad points at MUST carry `<!-- @callback -->`** (put it directly above `<section class="final">`, and point that section's "Request a callback instead" button at `#callback` rather than `/free-estimate/`). A paid click that lands on a page with no form can only convert by calling or by making a second click, and `/thank-you/` is the only conversion Google Ads counts. This was the cause of the Jul-Sep 2026 zero-conversion run: 10 of 13 ad destinations had no form on them. Optional args tailor the copy: `<!-- @callback placeholder="..." step2="..." -->`. Never hand-write the hidden `page` field, the build fills it from the page's own path. The build hard-fails if a lead form ever ships without the Turnstile script.
 2. One primary keyword per page; exact-match `<title>` ~60 chars; unique meta description; canonical URL.
 3. City pages follow the Chandler exemplar (`src/chandler/index.html`): zips, real neighborhoods, city FAQ (+ FAQPage JSON-LD), local reviews, links to sibling city/service pages.
 4. Copy rules: Andy's first-person voice, NO em dashes, no fake urgency/stats/warranty claims. Free inspection by Andy personally is the offer. Repairs "$800 to $4,000" is the only price range we state (from the real site).

@@ -10,6 +10,7 @@ Markers inside src pages:
 
 Usage:  python build.py
 """
+import re
 import shutil
 from pathlib import Path
 
@@ -21,6 +22,27 @@ MARKERS = {
     "<!-- @footer -->": "footer.html",
     "<!-- @callbar -->": "callbar.html",
 }
+
+# The on-page callback form (partials/callback.html). Parameterised rather than a plain
+# marker, because three things vary per page:
+#   {{PAGE}}         the page's own URL, auto-filled from its path so the lead email always
+#                    names the right page. Never write this by hand.
+#   {{PLACEHOLDER}}  the textarea prompt. Override for replacement-flavoured pages.
+#   {{STEP2}}        step 02 of "what happens when you reach out".
+# Usage in a src page:
+#   <!-- @callback -->
+#   <!-- @callback placeholder="Getting bids on a replacement..." step2="I walk the roof..." -->
+CALLBACK_MARKER = re.compile(r"<!--\s*@callback(?P<args>[^>]*?)-->")
+CALLBACK_ARG = re.compile(r'(?P<key>\w+)="(?P<val>[^"]*)"')
+CALLBACK_DEFAULTS = {
+    "placeholder": "Leak, broken tiles, getting bids on a replacement, not sure...",
+    "step2": "I come out and inspect the roof myself. It costs nothing.",
+}
+
+# Turnstile is per-page, not global. Without it the widget never renders and /api/lead/
+# rejects the submission, so the form looks fine and silently loses every lead. Injected
+# automatically for any page carrying a lead form, rather than relied on being remembered.
+TURNSTILE = '<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>'
 
 # Google Tag Manager (same container as the old WordPress site: GTM Kit)
 GTM_ID = "GTM-M5CC3JS"
@@ -52,6 +74,30 @@ def asset_version(path: Path) -> str:
     return hashlib.md5(path.read_bytes()).hexdigest()[:8]
 
 
+def page_url(page: Path) -> str:
+    """The site-relative URL a src file will be served at. src/gilbert/index.html -> /gilbert/"""
+    rel = page.relative_to(SRC)
+    if rel.name != "index.html":
+        return f"/{rel.as_posix()}"
+    return "/" if rel.parent.as_posix() == "." else f"/{rel.parent.as_posix()}/"
+
+
+def expand_callback(html: str, template: str, url: str) -> str:
+    """Replace every @callback marker with the callback form, filling its placeholders."""
+    def render(match: "re.Match") -> str:
+        args = dict(CALLBACK_DEFAULTS)
+        for arg in CALLBACK_ARG.finditer(match.group("args")):
+            key = arg.group("key")
+            if key not in CALLBACK_DEFAULTS:
+                raise SystemExit(f"Unknown @callback argument {key!r} (expected {sorted(CALLBACK_DEFAULTS)})")
+            args[key] = arg.group("val")
+        return (template
+                .replace("{{PAGE}}", url)
+                .replace("{{PLACEHOLDER}}", args["placeholder"])
+                .replace("{{STEP2}}", args["step2"]))
+    return CALLBACK_MARKER.sub(render, html)
+
+
 def main() -> None:
     partials = {m: (PARTIALS / f).read_text(encoding="utf-8") for m, f in MARKERS.items()}
 
@@ -64,9 +110,12 @@ def main() -> None:
         shutil.rmtree(PUBLIC)
     PUBLIC.mkdir()
 
+    callback_tpl = (PARTIALS / "callback.html").read_text(encoding="utf-8").rstrip("\n")
+
     pages = sorted(SRC.rglob("*.html"))
     for page in pages:
         html = page.read_text(encoding="utf-8")
+        html = expand_callback(html, callback_tpl, page_url(page))
         for marker, content in partials.items():
             html = html.replace(marker, content)
         # The private leads dashboard is a tool, not a marketing page: no GTM,
@@ -77,9 +126,15 @@ def main() -> None:
             html = html.replace("<body>", "<body>\n" + GTM_BODY, 1)
         html = html.replace('<link rel="stylesheet" href="/assets/css/main.css">', "<style>" + css_text + "</style>")
         html = html.replace('src="/assets/js/site.js"', f'src="/assets/js/site.js?v={js_v}"')
+        if "data-lead" in html and "turnstile/v0/api.js" not in html:
+            html = html.replace("</head>", TURNSTILE + "\n</head>", 1)
         leftovers = [m for m in MARKERS if m in html]
+        if CALLBACK_MARKER.search(html):
+            leftovers.append("<!-- @callback -->")
         if leftovers:
             raise SystemExit(f"Unreplaced markers in {page}: {leftovers}")
+        if "data-lead" in html and "turnstile/v0/api.js" not in html:
+            raise SystemExit(f"Lead form without Turnstile in {page} — the form would drop every lead")
         out = PUBLIC / page.relative_to(SRC)
         out.parent.mkdir(parents=True, exist_ok=True)
         out.write_text(html, encoding="utf-8")
