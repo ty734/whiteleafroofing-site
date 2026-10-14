@@ -276,6 +276,16 @@
       "source": "/hello-world/",
       "destination": "/",
       "permanent": true
+    },
+    {
+      "source": "/best-underlayment-for-tile-roofs-in-arizona/",
+      "destination": "/best-underlayment-for-tile-roof-in-arizona/",
+      "permanent": true
+    },
+    {
+      "source": "/best-underlayment-for-tile-roofs-arizona/",
+      "destination": "/best-underlayment-for-tile-roof-in-arizona/",
+      "permanent": true
     }
   ]
 }
