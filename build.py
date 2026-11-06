@@ -151,9 +151,22 @@ SITE = "https://whiteleafroofing.com"
 NOINDEX = {"thank-you", "404", "leads", "roofers-east-valley", "review", "ask"}  # LP is paid-search only; review = feedback gate; ask = Andy's private toolbox
 
 
+# Per-page lastmod. Google only trusts <lastmod> when it is consistently accurate, so a
+# sitemap that stamps every URL with the build date gives it no recrawl signal at all.
+# lastmod.json (committed) maps each sitemap path to the sha1 of its src file and the date
+# that content last changed. A page whose src is unchanged keeps its date; an edited page
+# gets today. Partials (header/footer) do not count as a page change.
+# Commit lastmod.json together with the src edit (a local build updates it).
+LASTMOD_FILE = ROOT / "lastmod.json"
+
+
 def write_sitemap(pages) -> None:
+    import hashlib
+    import json
     from datetime import date
     today = date.today().isoformat()
+    known = json.loads(LASTMOD_FILE.read_text(encoding="utf-8")) if LASTMOD_FILE.exists() else {}
+    stamps = {}
     urls = []
     for page in pages:
         rel = page.relative_to(SRC)
@@ -162,11 +175,17 @@ def write_sitemap(pages) -> None:
         path = "/" if rel.parent.as_posix() == "." else f"/{rel.parent.as_posix()}/"
         if path.strip("/").split("/")[0] in NOINDEX:
             continue
-        urls.append(f"  <url><loc>{SITE}{path}</loc><lastmod>{today}</lastmod></url>")
+        sha = hashlib.sha1(page.read_bytes().replace(b"\r\n", b"\n")).hexdigest()
+        entry = known.get(path)
+        lastmod = entry["lastmod"] if entry and entry.get("sha1") == sha else today
+        stamps[path] = {"sha1": sha, "lastmod": lastmod}
+        urls.append(f"  <url><loc>{SITE}{path}</loc><lastmod>{lastmod}</lastmod></url>")
     xml = ('<?xml version="1.0" encoding="UTF-8"?>\n'
            '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
            + "\n".join(urls) + "\n</urlset>\n")
     (PUBLIC / "sitemap.xml").write_text(xml, encoding="utf-8")
+    if stamps != known:
+        LASTMOD_FILE.write_text(json.dumps(stamps, indent=1, sort_keys=True) + "\n", encoding="utf-8")
 
 
 def write_robots() -> None:
